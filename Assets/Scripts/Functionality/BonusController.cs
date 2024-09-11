@@ -40,15 +40,6 @@ public class BonusController : MonoBehaviour
             cases.ResetCase();
         }
 
-        for (int i = 0; i < CaseValues.Count; i++)
-        {
-            if (CaseValues[i] == -1)
-            {
-                CaseValues.RemoveAt(i);
-                CaseValues.Add(-1);
-            }
-        }
-
         if (raycastPanel) raycastPanel.SetActive(false);
         StartBonus();
     }
