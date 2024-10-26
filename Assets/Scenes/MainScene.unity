@@ -5924,7 +5924,7 @@ MonoBehaviour:
   uiManager: {fileID: 377874625}
   bonusdata: []
   _jsManager: {fileID: 500036493}
-  testToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2ZDgzY2E2YTI3YmY5MDI0NDNlYjQ5NSIsInVzZXJuYW1lIjoiZWthbnNoIiwicm9sZSI6InBsYXllciIsImlhdCI6MTcyNTY4NTc4NiwiZXhwIjoxNzI2MjkwNTg2fQ.tnPbsOCmESq6lEPbEHN_zUkswAh0lE1tqHuXdsscfks
+  testToken: 
 --- !u!114 &500036493
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26433,8 +26433,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 5e5a654ae232e49a1a163be4efa5fe9b, type: 3}
   - {fileID: 8300000, guid: 10e211a89d3af4873bc98e7f36f93562, type: 3}
   - {fileID: 8300000, guid: d70bfe3709c0e46df9f0f9b4ca28a6a7, type: 3}
-  bg_audioBonus: {fileID: 7618297972142156750}
-  audioPlayer_Bonus: {fileID: 5447393868160401154}
+  bg_audioBonus: {fileID: 0}
+  audioPlayer_Bonus: {fileID: 0}
 --- !u!1 &1597289696977416915
 GameObject:
   m_ObjectHideFlags: 0
