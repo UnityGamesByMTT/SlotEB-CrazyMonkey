@@ -69,6 +69,8 @@ public class SlotBehaviour : MonoBehaviour
     private Sprite[] Coconut_Sprite;
     [SerializeField]
     private Sprite[] Bonus_Sprite;
+    [SerializeField]
+    private Sprite[] Wild_Sprite;
 
     [Header("Miscellaneous UI")]
     [SerializeField]
@@ -366,6 +368,12 @@ public class SlotBehaviour : MonoBehaviour
                 for (int i = 0; i < Bonus_Sprite.Length; i++)
                 {
                     animScript.textureArray.Add(Bonus_Sprite[i]);
+                }
+                break;
+            case 9:
+                for (int i = 0; i < Wild_Sprite.Length; i++)
+                {
+                    animScript.textureArray.Add(Wild_Sprite[i]);
                 }
                 break;
         }

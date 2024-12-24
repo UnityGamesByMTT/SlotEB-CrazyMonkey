@@ -32,6 +32,8 @@ public class UIManager : MonoBehaviour
     private GameObject[] Info_Screens;
     [SerializeField]
     private TMP_Text Bonus_Text;
+    [SerializeField]
+    private TMP_Text Wild_Text;
     int screenCounter = 0;
 
     [Header("Settings Popup")]
@@ -141,7 +143,7 @@ public class UIManager : MonoBehaviour
 
         if (PaytableExit_Button) PaytableExit_Button.onClick.RemoveAllListeners();
         if (PaytableExit_Button) PaytableExit_Button.onClick.AddListener(delegate { ClosePopup(PaytablePopup_Object); });
-        
+
         if (audioController) audioController.ToggleMute(false);
 
         if (GameExit_Button) GameExit_Button.onClick.RemoveAllListeners();
@@ -215,14 +217,14 @@ public class UIManager : MonoBehaviour
 
     private void ChangePage(bool Increment)
     {
-        foreach(GameObject t in Info_Screens)
+        foreach (GameObject t in Info_Screens)
         {
             t.SetActive(false);
         }
 
-        if(Increment)
+        if (Increment)
         {
-            if(screenCounter == Info_Screens.Length - 1)
+            if (screenCounter == Info_Screens.Length - 1)
             {
                 screenCounter = 0;
             }
@@ -245,7 +247,8 @@ public class UIManager : MonoBehaviour
         Info_Screens[screenCounter].SetActive(true);
     }
 
-    void ReturnToHome() {
+    void ReturnToHome()
+    {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
@@ -258,7 +261,7 @@ public class UIManager : MonoBehaviour
 
     private void ClosePopup(GameObject Popup)
     {
-        if (audioController)audioController.PlayButtonAudio();
+        if (audioController) audioController.PlayButtonAudio();
         if (Popup) Popup.SetActive(false);
         if (!DisconnectPopup_Object.activeSelf)
         {
@@ -295,6 +298,12 @@ public class UIManager : MonoBehaviour
             if (paylines.symbols[i].Name.ToUpper() == "BONUS")
             {
                 if (Bonus_Text) Bonus_Text.text = paylines.symbols[i].description.ToString();
+            }
+
+            if (paylines.symbols[i].Name.ToUpper() == "WILD")
+            {
+
+                if (Wild_Text) Wild_Text.text = paylines.symbols[i].description.ToString();
             }
         }
     }
