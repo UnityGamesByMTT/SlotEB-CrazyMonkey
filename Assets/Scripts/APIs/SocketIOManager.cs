@@ -1,12 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 using System;
-using UnityEngine.SceneManagement;
-using UnityEngine.Networking;
-using DG.Tweening;
-using System.Linq;
 using Newtonsoft.Json;
 using Best.SocketIO;
 using Best.SocketIO.Events;
@@ -33,13 +28,10 @@ public class SocketIOManager : MonoBehaviour
 
     private SocketManager manager;
 
-    [SerializeField]
-    internal JSHandler _jsManager;
-
     protected string SocketURI = null;
     // protected string TestSocketURI = "https://game-crm-rtp-backend.onrender.com/";
     //protected string SocketURI = "https://7p68wzhv-5000.inc1.devtunnels.ms/";
-    protected string TestSocketURI = "http://localhost:5000/";
+    protected string TestSocketURI = "http://localhost:5001/";
 
     [SerializeField]
     private string testToken;
@@ -48,7 +40,6 @@ public class SocketIOManager : MonoBehaviour
 
     internal bool SetInit = false;
 
-    //protected string gameID = "";
     // protected string gameID = "";
     protected string gameID = "SL-CRM";
 

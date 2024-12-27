@@ -100,42 +100,6 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private SocketIOManager socketManager;
 
-    [SerializeField]
-    private Button m_AwakeGameButton;
-
-    private void Awake()
-    {
-        //if (Loading_Object) Loading_Object.SetActive(true);
-        //StartCoroutine(LoadingRoutine());
-        SimulateClickByDefault();
-    }
-
-    private void SimulateClickByDefault()
-    {
-        Debug.Log("Awaken The Game...");
-        m_AwakeGameButton.onClick.AddListener(() => { Debug.Log("Called The Game..."); });
-        m_AwakeGameButton.onClick.Invoke();
-    }
-
-    private IEnumerator LoadingRoutine()
-    {
-        float imageFill = 0f;
-        DOTween.To(() => imageFill, (val) => imageFill = val, 0.7f, 2f).OnUpdate(() =>
-        {
-            if (Loading_Image) Loading_Image.fillAmount = imageFill;
-            if (LoadPercent_Text) LoadPercent_Text.text = (100 * imageFill).ToString("f0") + "%";
-        });
-        yield return new WaitForSecondsRealtime(2);
-        yield return new WaitUntil(() => socketManager.isLoaded);
-        DOTween.To(() => imageFill, (val) => imageFill = val, 1, 1f).OnUpdate(() =>
-        {
-            if (Loading_Image) Loading_Image.fillAmount = imageFill;
-            if (LoadPercent_Text) LoadPercent_Text.text = (100 * imageFill).ToString("f0") + "%";
-        });
-        yield return new WaitForSecondsRealtime(1f);
-        if (Loading_Object) Loading_Object.SetActive(false);
-    }
-
     private void Start()
     {
         if (Info_button) Info_button.onClick.RemoveAllListeners();
@@ -280,15 +244,15 @@ public class UIManager : MonoBehaviour
             string text = null;
             if (paylines.symbols[i].Multiplier[0][0] != 0)
             {
-                text += "5x - " + paylines.symbols[i].Multiplier[0][0];
+                text += "x - " + paylines.symbols[i].Multiplier[0][0]+"x";
             }
             if (paylines.symbols[i].Multiplier[1][0] != 0)
             {
-                text += "\n4x - " + paylines.symbols[i].Multiplier[1][0];
+                text += "\nx - " + paylines.symbols[i].Multiplier[1][0]+"x";
             }
             if (paylines.symbols[i].Multiplier[2][0] != 0)
             {
-                text += "\n3x - " + paylines.symbols[i].Multiplier[2][0];
+                text += "\nx - " + paylines.symbols[i].Multiplier[2][0]+"x";
             }
             if (SymbolsText[i]) SymbolsText[i].text = text;
         }
