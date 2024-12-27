@@ -79,6 +79,10 @@ public class GambleController : MonoBehaviour
     {
         if (slotController) slotController.GambleCollect();
         NormalCollectFunction();
+        if(slotController.WasAutoSpinON){
+            slotController.WasAutoSpinON=false;
+            slotController.AutoSpin();
+        }
     }
 
     void StartGamblegame(bool isRepeat = false)
@@ -244,7 +248,7 @@ public class GambleController : MonoBehaviour
 
     internal Sprite GetCard()
     {
-        if(socketManager.myMessage.playerWon)
+        if (socketManager.myMessage.playerWon)
         {
             if (DealerCard_Script) DealerCard_Script.cardImage = lowcard_Sprite;
             return highcard_Sprite;
@@ -272,7 +276,7 @@ public class GambleController : MonoBehaviour
     internal void FlipAllCard()
     {
         int cardVal = 0;
-        for (int i = 0; i < allcards.Count; i++) 
+        for (int i = 0; i < allcards.Count; i++)
         {
             if (allcards[i].once)
             {
@@ -313,14 +317,17 @@ public class GambleController : MonoBehaviour
     {
         yield return new WaitForSeconds(2f);
         gambleStart = false;
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1f);
         slotController.updateBalance();
         if (gamble_game) gamble_game.SetActive(false);
+        if(slotController.WasAutoSpinON){
+            slotController.WasAutoSpinON=false;
+            slotController.AutoSpin();
+        }
         allcards.ForEach((element) =>
         {
             element.Card_Button.image.sprite = cardCover;
             element.Reset();
-
         });
         DealerCard_Script.Card_Button.image.sprite = cardCover;
         DealerCard_Script.once = false;
@@ -342,7 +349,6 @@ public class GambleController : MonoBehaviour
         DealerCard_Script.Card_Button.image.sprite = cardCover;
         DealerCard_Script.once = false;
         toggleDoubleButton(false);
-
     }
 
     void OnGameOver()

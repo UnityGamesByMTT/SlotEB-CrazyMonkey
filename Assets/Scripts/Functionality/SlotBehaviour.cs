@@ -74,6 +74,7 @@ public class SlotBehaviour : MonoBehaviour
     private double currentBalance = 0;
     private double currentTotalBet = 0;
     internal double currentBet = 0;
+    internal bool WasAutoSpinON;
     private bool StopSpinToggle;
     protected int Lines = 9;
     private bool IsTurboOn;
@@ -104,7 +105,7 @@ public class SlotBehaviour : MonoBehaviour
         tweenHeight = (15 * IconSizeFactor) - 280;
     }
 
-    private void AutoSpin()
+    internal void AutoSpin()
     {
         if (!IsAutoSpin)
         {
@@ -182,7 +183,6 @@ public class SlotBehaviour : MonoBehaviour
 
     private IEnumerator AutoSpinCoroutine()
     {
-
         while (IsAutoSpin)
         {
             StartSlots(IsAutoSpin);
@@ -488,6 +488,9 @@ public class SlotBehaviour : MonoBehaviour
 
     internal void DeactivateGamble()
     {
+        if(IsAutoSpin){
+            WasAutoSpinON=true;
+        }
         StopAutoSpin();
     }
 
@@ -657,6 +660,7 @@ public class SlotBehaviour : MonoBehaviour
     {
         alltweens[index].Pause();
         int tweenpos = (reqpos * IconSizeFactor) - IconSizeFactor;
+        slotTransform.localPosition = new Vector2(slotTransform.localPosition.x, 0);
         alltweens[index] = slotTransform.DOLocalMoveY(-tweenpos + 100, 0.5f).SetEase(Ease.OutElastic);
 
         if(!isStop){
