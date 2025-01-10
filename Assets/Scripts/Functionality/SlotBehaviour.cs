@@ -65,6 +65,7 @@ public class SlotBehaviour : MonoBehaviour
     Coroutine AutoSpinRoutine = null;
     Coroutine tweenroutine;
     Coroutine FreeSpinRoutine = null;
+    private Tween BalanceTween;
     bool IsFreeSpin = false;
     bool IsAutoSpin = false;
     bool IsSpinning = false;
@@ -101,7 +102,7 @@ public class SlotBehaviour : MonoBehaviour
         if(Turbo_Button) Turbo_Button.onClick.AddListener(TurboToggle);
 
         if(StopSpin_Button) StopSpin_Button.onClick.RemoveAllListeners();
-        if(StopSpin_Button) StopSpin_Button.onClick.AddListener(()=> {StopSpinToggle=true; StopSpin_Button.gameObject.SetActive(false);});
+        if(StopSpin_Button) StopSpin_Button.onClick.AddListener(()=> {audioController.PlayButtonAudio(); StopSpinToggle=true; StopSpin_Button.gameObject.SetActive(false);});
         tweenHeight = (15 * IconSizeFactor) - 280;
     }
 
@@ -123,6 +124,7 @@ public class SlotBehaviour : MonoBehaviour
     }
 
     void TurboToggle(){
+        audioController.PlayButtonAudio();
         if(IsTurboOn){
             IsTurboOn=false;
             Turbo_Button.GetComponent<ImageAnimation>().StopAnimation();
@@ -407,7 +409,7 @@ public class SlotBehaviour : MonoBehaviour
         }
         SocketManager.AccumulateResult(BetCounter);
         yield return new WaitUntil(() => SocketManager.isResultdone);
-        yield return new WaitForSeconds(0.9f);
+        // yield return new WaitForSeconds(0.9f);
 
         for (int j = 0; j < SocketManager.resultData.ResultReel.Count; j++)
         {
@@ -422,7 +424,7 @@ public class SlotBehaviour : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
         }
         else{
-            for(int i=0;i<10;i++)
+            for(int i=0;i<5;i++)
             {
                 yield return new WaitForSeconds(0.1f);
                 if(StopSpinToggle){
@@ -439,7 +441,8 @@ public class SlotBehaviour : MonoBehaviour
         StopSpinToggle=false;
         yield return alltweens[^1].WaitForCompletion();
         KillAllTweens();
-
+        BalanceTween?.Kill();
+        Balance_text.text=currentBalance.ToString("F3");
         if(SocketManager.playerdata.currentWining>0){
             SpinDelay=1.2f;
         }
@@ -521,10 +524,11 @@ public class SlotBehaviour : MonoBehaviour
 
         balance = balance - bet;
 
-        DOTween.To(() => initAmount, (val) => initAmount = val, balance, 0.8f).OnUpdate(() =>
+        BalanceTween=DOTween.To(() => initAmount, (val) => initAmount = val, balance, 0.8f).OnUpdate(() =>
         {
             if (Balance_text) Balance_text.text = initAmount.ToString("f3");
         });
+        currentBalance = balance;
     }
 
     private void WinningsAnim(bool IsStart)
