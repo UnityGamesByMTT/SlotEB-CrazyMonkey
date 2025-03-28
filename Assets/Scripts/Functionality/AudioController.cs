@@ -161,7 +161,7 @@ public class AudioController : MonoBehaviour
         }
     }
 
-    internal void ChangeVolume(string type, float vol)
+    internal void   ChangeVolume(string type, float vol)
     {
         switch (type)
         {
@@ -181,6 +181,7 @@ public class AudioController : MonoBehaviour
                 audioPlayer_wl.volume = vol;
                 audioPlayer_Bonus.mute = (vol == 0);
                 audioPlayer_Bonus.volume = vol;
+                audioSpin_button.volume = vol;
                 break;
             case "all":
 
