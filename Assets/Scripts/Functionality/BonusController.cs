@@ -62,13 +62,13 @@ public class BonusController : MonoBehaviour
 
         value = CaseValues[index];
 
-        winAmount += (value * slotManager.currentBet);
+        winAmount += value * slotManager.currentBet;
 
         index++;
 
         if (_audioManager) _audioManager.PlayBonusAudio("coconut");
 
-        return (value * slotManager.currentBet);
+        return value * slotManager.currentBet;
     }
 
     private void StartBonus()

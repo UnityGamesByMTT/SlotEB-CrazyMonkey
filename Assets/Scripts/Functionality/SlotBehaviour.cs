@@ -168,6 +168,7 @@ public class SlotBehaviour : MonoBehaviour
         if (TotalWin_text) TotalWin_text.text = "0.000";
         currentBalance = SocketManager.playerdata.Balance;
         currentTotalBet = SocketManager.initialData.Bets[BetCounter] * Lines;
+        CompareBalance();
         uiManager.InitialiseUIData(SocketManager.initUIData.AbtLogo.link, SocketManager.initUIData.AbtLogo.logoSprite, SocketManager.initUIData.ToULink, SocketManager.initUIData.PopLink, SocketManager.initUIData.paylines);
     }
 
@@ -227,7 +228,7 @@ public class SlotBehaviour : MonoBehaviour
         if (LineBet_text) LineBet_text.text = SocketManager.initialData.Bets[BetCounter].ToString();
         if (TotalBet_text) TotalBet_text.text = (SocketManager.initialData.Bets[BetCounter] * Lines).ToString();
         currentTotalBet = SocketManager.initialData.Bets[BetCounter] * Lines;
-        CompareBalance();
+      
     }
 
     private void ChangeBet()
@@ -244,7 +245,7 @@ public class SlotBehaviour : MonoBehaviour
         if (LineBet_text) LineBet_text.text = SocketManager.initialData.Bets[BetCounter].ToString();
         if (TotalBet_text) TotalBet_text.text = (SocketManager.initialData.Bets[BetCounter] * Lines).ToString();
         currentTotalBet = SocketManager.initialData.Bets[BetCounter] * Lines;
-        CompareBalance();
+       
     }
 
     private void CompareBalance()
@@ -444,29 +445,29 @@ public class SlotBehaviour : MonoBehaviour
         BalanceTween?.Kill();
         Balance_text.text=currentBalance.ToString("F3");
         if(SocketManager.playerdata.currentWining>0){
-            SpinDelay=1.2f;
+            SpinDelay=1.4f;
         }
         else{
             SpinDelay=0.2f;
         }
-
         CheckPayoutLineBackend(SocketManager.resultData.linesToEmit, SocketManager.resultData.FinalsymbolsToEmit, SocketManager.resultData.jackpot);
-
-        CheckPopups = true;
-
-        if (TotalWin_text) TotalWin_text.text = SocketManager.playerdata.currentWining.ToString("f3");
-
-        if (Balance_text) Balance_text.text = SocketManager.playerdata.Balance.ToString("f3");
-
         currentBalance = SocketManager.playerdata.Balance;
-
         currentBet = SocketManager.initialData.Bets[BetCounter];
-
-        yield return new WaitForSeconds(0.5f);
-        CheckBonusGame();
-
-        print("checkpopups, " + CheckPopups);
+        CheckPopups = true;
+        if(SocketManager.resultData.isBonus){
+            yield return new WaitForSeconds(0.6f);
+            _bonusManager.GetBailCaseList(SocketManager.resultData.BonusResult);
+        }
+        else{
+            CheckPopups=false;
+        }
+        // print("checkpopups, " + CheckPopups);
         yield return new WaitUntil(() => !CheckPopups);
+        if(SocketManager.resultData.isBonus){
+            yield return new WaitForSeconds(0.2f);
+        }
+        if (TotalWin_text) TotalWin_text.text = SocketManager.playerdata.currentWining.ToString("f3");
+        if (Balance_text) Balance_text.text = SocketManager.playerdata.Balance.ToString("f3");
         if (!IsAutoSpin)
         {
             ActivateGamble();
@@ -547,18 +548,6 @@ public class SlotBehaviour : MonoBehaviour
     internal void CallCloseSocket()
     {
         SocketManager.CloseSocket();
-    }
-
-    internal void CheckBonusGame()
-    {
-        if (SocketManager.resultData.isBonus)
-        {
-            _bonusManager.GetBailCaseList(SocketManager.resultData.BonusResult);
-        }
-        else
-        {
-            CheckPopups = false;
-        }
     }
 
     void ToggleButtonGrp(bool toggle)
